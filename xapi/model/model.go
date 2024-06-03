@@ -510,6 +510,46 @@ func NewGetMarginLevelRequest(opts ...GetMarginLevelRequestOption) (r *GetMargin
 	return
 }
 
+type GetMarginTradeArgs struct {
+	Symbol string  `json:"symbol"`
+	Volume float64 `json:"volume"`
+}
+
+type GetMarginTradeData struct {
+	Margin float64 `json:"margin"`
+}
+
+type GetMarginTradeRequest Request[GetMarginTradeArgs]
+type GetMarginTradeRequestOption func(*GetMarginTradeRequest)
+type GetMarginTradeResponse Response[GetMarginTradeData]
+
+func GetMarginTradeRequestWithCustomTag(tag string) GetMarginTradeRequestOption {
+	return func(request *GetMarginTradeRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetMarginTradeRequestWithPrettyPrint(flag bool) GetMarginTradeRequestOption {
+	return func(request *GetMarginTradeRequest) {
+		request.PrettyPrint = flag
+	}
+}
+
+func NewGetMarginTradeRequest(symbol string, volume float64, opts ...GetMarginTradeRequestOption) (r *GetMarginTradeRequest) {
+	r = &GetMarginTradeRequest{
+		Command: CmdGetMarginTrade,
+		Arguments: GetMarginTradeArgs{
+			Symbol: symbol,
+			Volume: volume,
+		},
+	}
+
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
 type PingRequest struct {
 	Request[Nil]
 	StreamSessionId string `json:"streamSessionId,omitempty"`

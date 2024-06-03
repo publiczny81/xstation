@@ -1,0 +1,7 @@
+{
+  "command": "getMarginTrade",
+  "arguments": {
+    "symbol": "EURPLN",
+    "volume": 1.0
+  }
+}

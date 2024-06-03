@@ -175,6 +175,22 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
+			Name: CmdGetMarginTrade,
+			RequestFactory: func() any {
+				return NewGetMarginTradeRequest("EURPLN", 1.0, GetMarginTradeRequestWithCustomTag("tag"),
+					GetMarginTradeRequestWithPrettyPrint(true))
+			},
+			Want: &GetMarginTradeRequest{
+				Command: CmdGetMarginTrade,
+				Arguments: GetMarginTradeArgs{
+					Symbol: "EURPLN",
+					Volume: 1.0,
+				},
+				PrettyPrint: true,
+				CustomTag:   "tag",
+			},
+		},
+		{
 			Name: CmdLogin,
 			RequestFactory: func() any {
 				return NewLoginRequest("userId",
@@ -573,6 +589,30 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								Margin:      572634.43,
 								MarginFree:  995227635.00,
 								MarginLevel: 173930.41,
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetMarginTrade,
+				Data: []testData{
+					{
+						Want: "testdata/getMarginTrade.request.json",
+						Actual: &GetMarginTradeRequest{
+							Command: CmdGetMarginTrade,
+							Arguments: GetMarginTradeArgs{
+								Symbol: "EURPLN",
+								Volume: 1.0,
+							},
+						},
+					},
+					{
+						Want: "testdata/getMarginTrade.response.json",
+						Actual: GetMarginTradeResponse{
+							Status: true,
+							ReturnData: GetMarginTradeData{
+								Margin: 4399.350,
 							},
 						},
 					},
