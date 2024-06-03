@@ -1,0 +1,11 @@
+{
+  "command": "getChartRangeRequest",
+  "arguments": {
+    "end": 1262944412000,
+    "period": 5,
+    "start": 1262944112000,
+    "symbol": "PKN.PL",
+    "ticks": 0
+  },
+  "prettyPrint": true
+}

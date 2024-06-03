@@ -23,5 +23,11 @@
       "symbol": "EURUSD",
       "vol": 0.0
     }
+  },
+  {
+    "command": "keepAlive",
+    "data": {
+      "timestamp": 1362944112000
+    }
   }
 ]

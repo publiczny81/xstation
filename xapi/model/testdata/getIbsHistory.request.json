@@ -1,0 +1,7 @@
+{
+  "command": "getIbsHistory",
+  "arguments": {
+    "end": 1395053810991,
+    "start": 1394449010991
+  }
+}

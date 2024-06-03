@@ -1,0 +1,7 @@
+{
+  "command": "getCommissionDef",
+  "arguments": {
+    "symbol": "T.US",
+    "volume": 1.0
+  }
+}

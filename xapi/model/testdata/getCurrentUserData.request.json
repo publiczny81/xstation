@@ -1,0 +1,5 @@
+{
+  "command": "getCurrentUserData",
+  "prettyPrint": true,
+  "customTag": "tag"
+}
