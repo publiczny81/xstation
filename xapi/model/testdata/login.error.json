@@ -1,0 +1,6 @@
+{
+  "status": true,
+  "customTag": "tag",
+  "errorCode": "EX004",
+  "errorDescr": "Login credentials are incorrect or this login is not allowed to use an application with this appId"
+}

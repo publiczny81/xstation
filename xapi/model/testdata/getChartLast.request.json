@@ -1,0 +1,9 @@
+{
+  "command": "getChartLastRequest",
+  "prettyPrint": true,
+  "arguments": {
+    "period": 5,
+    "start": 1262944112000,
+    "symbol": "PKN.PL"
+  }
+}

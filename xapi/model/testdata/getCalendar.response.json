@@ -1,0 +1,25 @@
+{
+  "status": true,
+  "returnData": [
+    {
+      "country": "CA",
+      "current": "",
+      "forecast": "",
+      "impact": "3",
+      "period": "(FEB)",
+      "previous": "58.3",
+      "time": 1374846900000,
+      "title": "Ivey Purchasing Managers Index"
+    },
+    {
+      "country": "PL",
+      "current": "",
+      "forecast": "",
+      "impact": "2",
+      "period": "(FEB)",
+      "previous": "51.1",
+      "time": 1374846900000,
+      "title": "Tax rate"
+    }
+  ]
+}

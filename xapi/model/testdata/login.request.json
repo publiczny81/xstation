@@ -1,0 +1,11 @@
+{
+  "command": "login",
+  "customTag": "tag",
+  "prettyPrint": true,
+  "arguments": {
+    "userId": "userId",
+    "password": "password",
+    "appId": "appId",
+    "appName": "appName"
+  }
+}
