@@ -76,6 +76,25 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
+			Name: CmdGetProfits,
+			RequestFactory: func() any {
+				return NewGetProfits("1234567890")
+			},
+			Want: &GetProfits{
+				Command:         CmdGetProfits,
+				StreamSessionId: "1234567890",
+			},
+		},
+		{
+			Name: CmdStopProfits,
+			RequestFactory: func() any {
+				return NewStopProfits()
+			},
+			Want: &StopProfits{
+				Command: CmdStopProfits,
+			},
+		},
+		{
 			Name: CmdPing,
 			RequestFactory: func() any {
 				return NewPingRequest("8469308861804289383")
@@ -215,6 +234,31 @@ func TestRequestJsonCoding(t *testing.T) {
 				},
 			},
 			{
+				Name: CmdGetProfits,
+				Data: []testData{
+					{
+						Want:   "testdata/getProfits.request.json",
+						Actual: NewGetProfits("8469308861804289383"),
+					},
+					{
+						Want:   "testdata/stopProfits.request.json",
+						Actual: NewStopProfits(),
+					},
+					{
+						Want: "testdata/profit.stream.json",
+						Actual: &DataStream{
+							Command: DataStreamProfit,
+							Data: &StreamingProfitRecord{
+								Order:    7497776,
+								Order2:   7497777,
+								Position: 7497776,
+								Profit:   7076.52,
+							},
+						},
+					},
+				},
+			},
+			{
 				Name: CmdPing,
 				Data: []testData{
 					{
@@ -288,6 +332,15 @@ func TestDataStreamUnmarshalJSON(t *testing.T) {
 					Key:   "1f6da766abd29927aa854823f0105c23",
 					Time:  1262944112000,
 					Title: "Breaking trend",
+				},
+			},
+			{
+				Command: DataStreamProfit,
+				Data: &StreamingProfitRecord{
+					Order:    7497776,
+					Order2:   7497777,
+					Position: 7497776,
+					Profit:   7076.52,
 				},
 			},
 		}

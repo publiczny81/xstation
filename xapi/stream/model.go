@@ -158,6 +158,22 @@ func NewPingRequest(streamSessionId string) *PingRequest {
 	}
 }
 
+type GetProfits Request
+type StopProfits Request
+
+func NewGetProfits(streamSessionId string) *GetProfits {
+	return &GetProfits{
+		Command:         CmdGetProfits,
+		StreamSessionId: streamSessionId,
+	}
+}
+
+func NewStopProfits() *StopProfits {
+	return &StopProfits{
+		Command: CmdStopProfits,
+	}
+}
+
 type StreamingBalanceRecord struct {
 	Balance     float64 `json:"balance"`
 	Credit      float64 `json:"credit"`
@@ -189,10 +205,10 @@ type StreamingNewsRecord struct {
 }
 
 type StreamingProfitRecord struct {
-	Order         int     `json:"order"`
-	TransactionId int     `json:"order2"`
-	Position      int     `json:"position"`
-	Profit        float64 `json:"profit"`
+	Order    int     `json:"order"`
+	Order2   int     `json:"order2"`
+	Position int     `json:"position"`
+	Profit   float64 `json:"profit"`
 }
 
 type StreamingTickRecord struct {
