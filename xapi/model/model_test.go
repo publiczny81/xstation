@@ -185,6 +185,16 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
+			Name: CmdGetNews,
+			RequestFactory: func() any {
+				return NewGetNewsRequest(100, 120)
+			},
+			Want: &GetNewsRequest{
+				Command:   CmdGetNews,
+				Arguments: NewsRequestArg{Start: 100, End: 120},
+			},
+		},
+		{
 			Name: CmdPing,
 			RequestFactory: func() any {
 				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
@@ -544,6 +554,31 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 						Actual: LogoutResponse{
 							Status:    true,
 							CustomTag: "tag",
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetNews,
+				Data: []testData{
+					{
+						Want:   "testdata/getNews.request.json",
+						Actual: NewGetNewsRequest(1275993488000, 0),
+					},
+					{
+						Want: "testdata/getNews.response.json",
+						Actual: &GetNewsResponse{
+							Status: true,
+							ReturnData: NewsTopicRecords{
+								{
+									Body:       "<html>...</html>",
+									BodyLength: 110,
+									Key:        "1f6da766abd29927aa854823f0105c23",
+									Time:       1262944112000,
+									TimeString: "May 17, 2013 4:30:00 PM",
+									Title:      "Breaking trend",
+								},
+							},
 						},
 					},
 				},

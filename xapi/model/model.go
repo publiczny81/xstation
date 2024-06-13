@@ -570,6 +570,23 @@ type NewsRequestArg struct {
 	End   int `json:"end"`
 	Start int `json:"start"`
 }
-type GetNewsRequest struct {
-	Request[NewsRequestArg]
+
+type NewsTopicRecord struct {
+	Body       string `json:"body"`
+	BodyLength int    `json:"bodylen"`
+	Key        string `json:"key"`
+	Time       int    `json:"time"`
+	TimeString string `json:"timeString"`
+	Title      string `json:"title"`
+}
+
+type NewsTopicRecords []NewsTopicRecord
+type GetNewsRequest Request[NewsRequestArg]
+type GetNewsResponse Response[NewsTopicRecords]
+
+func NewGetNewsRequest(start, end int) *GetNewsRequest {
+	return &GetNewsRequest{
+		Command:   CmdGetNews,
+		Arguments: NewsRequestArg{End: end, Start: start},
+	}
 }
