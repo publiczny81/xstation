@@ -1,0 +1,10 @@
+{
+  "command": "getProfitCalculation",
+  "arguments": {
+    "closePrice": 1.3000,
+    "cmd": 0,
+    "openPrice": 1.2233,
+    "symbol": "EURPLN",
+    "volume": 1.0
+  }
+}

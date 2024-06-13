@@ -590,3 +590,31 @@ func NewGetNewsRequest(start, end int) *GetNewsRequest {
 		Arguments: NewsRequestArg{End: end, Start: start},
 	}
 }
+
+type GetProfitCalculationArgs struct {
+	ClosePrice float64 `json:"closePrice"`
+	Cmd        int     `json:"cmd"`
+	OpenPrice  float64 `json:"openPrice"`
+	Symbol     string  `json:"symbol"`
+	Volume     float64 `json:"volume"`
+}
+
+type ProfitRecord struct {
+	Profit float64 `json:"profit"`
+}
+
+type GetProfitCalculationRequest Request[GetProfitCalculationArgs]
+type GetProfitCalculationResponse Response[ProfitRecord]
+
+func NewGetProfitCalculationRequest(symbol string, cmd int, openPrice, closePrice, volume float64) *GetProfitCalculationRequest {
+	return &GetProfitCalculationRequest{
+		Command: CmdGetProfitCalculation,
+		Arguments: GetProfitCalculationArgs{
+			ClosePrice: closePrice,
+			Cmd:        cmd,
+			OpenPrice:  openPrice,
+			Symbol:     symbol,
+			Volume:     volume,
+		},
+	}
+}

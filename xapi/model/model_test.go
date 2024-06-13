@@ -207,6 +207,22 @@ func TestConstructor(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name: CmdGetProfitCalculation,
+			RequestFactory: func() any {
+				return NewGetProfitCalculationRequest("USDPLN", 1, 1.1, 1.2, 3)
+			},
+			Want: &GetProfitCalculationRequest{
+				Command: CmdGetProfitCalculation,
+				Arguments: GetProfitCalculationArgs{
+					Symbol:     "USDPLN",
+					Cmd:        1,
+					OpenPrice:  1.1,
+					ClosePrice: 1.2,
+					Volume:     3,
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -596,6 +612,24 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 						Want: "testdata/ping.response.json",
 						Actual: &PingResponse{
 							Status: true,
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetProfitCalculation,
+				Data: []testData{
+					{
+						Want:   "testdata/getProfitCalculation.request.json",
+						Actual: NewGetProfitCalculationRequest("EURPLN", 0, 1.2233, 1.3000, 1),
+					},
+					{
+						Want: "testdata/getProfitCalculation.response.json",
+						Actual: &GetProfitCalculationResponse{
+							Status: true,
+							ReturnData: ProfitRecord{
+								Profit: 714.303,
+							},
 						},
 					},
 				},
