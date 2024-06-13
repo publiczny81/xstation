@@ -1,23 +1,21 @@
 package model
 
 const (
-	CmdGetAllSymbols          = "getAllSymbols"
-	CmdGetBalance             = "getBalance"
-	CmdGetCalendar            = "getCalendar"
-	CmdGetCandles             = "getCandles"
+	CmdGetAllSymbols = "getAllSymbols"
+
+	CmdGetCalendar = "getCalendar"
+
 	CmdGetChartLastRequest    = "getChartLastRequest"
 	CmdGetChartRangeRequest   = "getChartRangeRequest"
 	CmdGetCommissionDef       = "getCommissionDef"
 	CmdGetCurrentUserData     = "getCurrentUserData"
 	CmdGetIbsHistory          = "getIbsHistory"
-	CmdGetKeepAlive           = "getKeepAlive"
 	CmdLogin                  = "login"
 	CmdLogout                 = "logout"
 	CmdGetMarginLevel         = "getMarginLevel"
 	CmdGetMarginTrade         = "getMarginTrade"
 	CmdGetNews                = "getNews"
 	CmdGetProfitCalculation   = "getProfitCalculation"
-	CmdGetProfits             = "getProfits"
 	CmdGetServerTime          = "getServerTime"
 	CmdGetStepRules           = "getStepRules"
 	CmdGetSymbol              = "getSymbol"
@@ -25,31 +23,11 @@ const (
 	CmdGetTradeRecords        = "getTradeRecords"
 	CmdGetTrades              = "getTrades"
 	CmdGetTradesHistory       = "getTradesHistory"
-	CmdGetTradeStatus         = "getTradeStatus"
 	CmdGetTradingHours        = "getTradingHours"
 	CmdGetVersion             = "getVersion"
 	CmdPing                   = "ping"
-	CmdStopBalance            = "stopBalance"
-	CmdStopCandles            = "stopCandles"
-	CmdStopKeepAlive          = "stopKeepAlive"
-	CmdStopNews               = "stopNews"
-	CmdStopProfits            = "stopProfits"
-	CmdStopTickPrices         = "stopTickPrices"
-	CmdStopTrades             = "stopTrades"
-	CmdStopTradeStatus        = "stopTradeStatus"
 	CmdTradeTransaction       = "tradeTransaction"
 	CmdTradeTransactionStatus = "tradeTransactionStatus"
-)
-
-const (
-	DataStreamBalance     = "balance"
-	DataStreamCandle      = "candle"
-	DataStreamKeepAlive   = "keepAlive"
-	DataStreamNews        = "news"
-	DataStreamProfit      = "profit"
-	DataStreamTickPrices  = "tickPrices"
-	DataStreamTrade       = "trade"
-	DataStreamTradeStatus = "tradeStatus"
 )
 
 const (

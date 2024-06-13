@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"github.com/publiczny81/xstation/xapi/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/wI2L/jsondiff"
 	"os"
@@ -26,16 +27,6 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
-			Name: CmdGetBalance,
-			RequestFactory: func() any {
-				return NewGetBalanceRequest("streamSessionId")
-			},
-			Want: &GetBalanceRequest{
-				Command:         CmdGetBalance,
-				StreamSessionId: "streamSessionId",
-			},
-		},
-		{
 			Name: CmdGetCalendar,
 			RequestFactory: func() any {
 				return NewGetCalendarRequest(GetCalendarRequestWithCustomTag("tag"), GetCalendarRequestWithPrettyPrint(true))
@@ -44,19 +35,6 @@ func TestConstructor(t *testing.T) {
 				Command:     CmdGetCalendar,
 				CustomTag:   "tag",
 				PrettyPrint: true,
-			},
-		},
-		{
-			Name: CmdGetCandles,
-			RequestFactory: func() any {
-				return NewGetCandlesRequest("symbol", "streamSessionId")
-			},
-			Want: &GetCandlesRequest{
-				StreamRequest: StreamRequest{
-					Command:         CmdGetCandles,
-					StreamSessionId: "streamSessionId",
-				},
-				Symbol: "symbol",
 			},
 		},
 		{
@@ -142,25 +120,6 @@ func TestConstructor(t *testing.T) {
 				},
 				CustomTag:   "tag",
 				PrettyPrint: true,
-			},
-		},
-		{
-			Name: CmdGetKeepAlive,
-			RequestFactory: func() any {
-				return NewGetKeepAliveRequest("8469308861804289383")
-			},
-			Want: &GetKeepAliveRequest{
-				Command:         CmdGetKeepAlive,
-				StreamSessionId: "8469308861804289383",
-			},
-		},
-		{
-			Name: CmdStopKeepAlive,
-			RequestFactory: func() any {
-				return NewStopKeepAliveRequest()
-			},
-			Want: &StopKeepAliveRequest{
-				Command: CmdStopKeepAlive,
 			},
 		},
 		{
@@ -321,33 +280,6 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 				},
 			},
 			{
-				Name: CmdGetBalance,
-				Data: []testData{
-					{
-						Want:   "testdata/getBalance.request.json",
-						Actual: NewGetBalanceRequest("8469308861804289383"),
-					},
-					{
-						Want:   "testdata/stopBalance.request.json",
-						Actual: NewStopBalanceRequest(),
-					},
-					{
-						Want: "testdata/balance.stream.json",
-						Actual: &DataStream{
-							Command: DataStreamBalance,
-							Data: &StreamingBalanceRecord{
-								Balance:     995800269.43,
-								Credit:      1000.0,
-								Equity:      995985397.56,
-								Margin:      572634.43,
-								MarginFree:  995227635.00,
-								MarginLevel: 173930.41,
-							},
-						},
-					},
-				},
-			},
-			{
 				Name: CmdGetCalendar,
 				Data: []testData{
 					{
@@ -377,36 +309,6 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								},
 							},
 						},
-					},
-				},
-			},
-			{
-				Name: CmdGetCandles,
-				Data: []testData{
-					{
-						Want:   "testdata/getCandles.request.json",
-						Actual: NewGetCandlesRequest("EURUSD", "8469308861804289383"),
-					},
-					{
-						Want: "testdata/candle.stream.json",
-						Actual: &DataStream{
-							Command: DataStreamCandle,
-							Data: &StreamingCandleRecord{
-								Close:     4.1849,
-								Ctm:       1378369375000,
-								CtmString: "Sep 05, 2013 10:22:55 AM",
-								High:      4.1854,
-								Low:       4.1848,
-								Open:      4.1848,
-								QuoteId:   QuoteIdFloat,
-								Symbol:    "EURUSD",
-								Vol:       0,
-							},
-						},
-					},
-					{
-						Want:   "testdata/stopCandles.request.json",
-						Actual: NewStopCandlesRequest("EURUSD"),
 					},
 				},
 			},
@@ -508,7 +410,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								IbAccount:          false,
 								Leverage:           1,
 								LeverageMultiplier: 0.25,
-								SpreadType:         pointer("FLOAT"),
+								SpreadType:         utils.Pointer("FLOAT"),
 								TrailingStop:       false,
 							},
 						},
@@ -528,43 +430,16 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 							Status: true,
 							ReturnData: []IbRecord{
 								{
-									ClosePrice: pointer(1.39302),
-									Login:      pointer("12345"),
-									Nominal:    pointer(6.00),
-									OpenPrice:  pointer(1.39376),
-									Side:       pointer(0),
-									Surname:    pointer("IB_Client_1"),
-									Symbol:     pointer("EURUSD"),
-									Timestamp:  pointer(1395755870000),
-									Volume:     pointer(1.0),
+									ClosePrice: utils.Pointer(1.39302),
+									Login:      utils.Pointer("12345"),
+									Nominal:    utils.Pointer(6.00),
+									OpenPrice:  utils.Pointer(1.39376),
+									Side:       utils.Pointer(0),
+									Surname:    utils.Pointer("IB_Client_1"),
+									Symbol:     utils.Pointer("EURUSD"),
+									Timestamp:  utils.Pointer(1395755870000),
+									Volume:     utils.Pointer(1.0),
 								},
-							},
-						},
-					},
-				},
-			},
-			{
-				Name: CmdGetKeepAlive,
-				Data: []testData{
-					{
-						Want: "testdata/getKeepAlive.request.json",
-						Actual: &GetKeepAliveRequest{
-							Command:         CmdGetKeepAlive,
-							StreamSessionId: "8469308861804289383",
-						},
-					},
-					{
-						Want: "testdata/stopKeepAlive.request.json",
-						Actual: &StopKeepAliveRequest{
-							Command: CmdStopKeepAlive,
-						},
-					},
-					{
-						Want: "testdata/keepAlive.stream.json",
-						Actual: &DataStream{
-							Command: DataStreamKeepAlive,
-							Data: &StreamingKeepAliveRecord{
-								Timestamp: 1362944112000,
 							},
 						},
 					},
@@ -709,51 +584,4 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 			}
 		})
 	}
-}
-
-func TestDataStreamUnmarshalJSON(t *testing.T) {
-	var (
-		data, _ = os.ReadFile("testdata/data.stream.json")
-		actual  = make([]DataStream, 0)
-		err     = json.Unmarshal(data, &actual)
-		want    = []DataStream{
-			{
-				Command: DataStreamBalance,
-				Data: &StreamingBalanceRecord{
-					Balance:     995800269.43,
-					Credit:      1000.00,
-					Equity:      995985397.56,
-					Margin:      572634.43,
-					MarginFree:  995227635.00,
-					MarginLevel: 173930.41,
-				},
-			},
-			{
-				Command: DataStreamCandle,
-				Data: &StreamingCandleRecord{
-					Close:     4.1849,
-					Ctm:       1378369375000,
-					CtmString: "Sep 05, 2013 10:22:55 AM",
-					High:      4.1854,
-					Low:       4.1848,
-					Open:      4.1848,
-					QuoteId:   QuoteIdFloat,
-					Symbol:    "EURUSD",
-					Vol:       0,
-				},
-			},
-			{
-				Command: DataStreamKeepAlive,
-				Data: &StreamingKeepAliveRecord{
-					Timestamp: 1362944112000,
-				},
-			},
-		}
-	)
-	assert.NoError(t, err)
-	assert.Equal(t, want, actual)
-}
-
-func pointer[T any](value T) *T {
-	return &value
 }
