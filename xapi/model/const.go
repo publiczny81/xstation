@@ -1,10 +1,8 @@
 package model
 
 const (
-	CmdGetAllSymbols = "getAllSymbols"
-
-	CmdGetCalendar = "getCalendar"
-
+	CmdGetAllSymbols          = "getAllSymbols"
+	CmdGetCalendar            = "getCalendar"
 	CmdGetChartLastRequest    = "getChartLastRequest"
 	CmdGetChartRangeRequest   = "getChartRangeRequest"
 	CmdGetCommissionDef       = "getCommissionDef"

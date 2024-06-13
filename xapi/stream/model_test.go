@@ -67,6 +67,15 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
+			Name: CmdStopNews,
+			RequestFactory: func() any {
+				return NewStopNewsRequest()
+			},
+			Want: &StopNewsRequest{
+				Command: CmdStopNews,
+			},
+		},
+		{
 			Name: CmdPing,
 			RequestFactory: func() any {
 				return NewPingRequest("8469308861804289383")
@@ -186,6 +195,10 @@ func TestRequestJsonCoding(t *testing.T) {
 					{
 						Want:   "testdata/getNews.request.json",
 						Actual: NewGetNewsRequest("1234567890"),
+					},
+					{
+						Want:   "testdata/stopNews.request.json",
+						Actual: NewStopNewsRequest(),
 					},
 					{
 						Want: "testdata/news.stream.json",

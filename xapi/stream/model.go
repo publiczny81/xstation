@@ -134,11 +134,18 @@ func NewStopKeepAliveRequest() *StopKeepAliveRequest {
 }
 
 type GetNewsRequest Request
+type StopNewsRequest Request
 
 func NewGetNewsRequest(streamSessionId string) *GetNewsRequest {
 	return &GetNewsRequest{
 		Command:         CmdGetNews,
 		StreamSessionId: streamSessionId,
+	}
+}
+
+func NewStopNewsRequest() *StopNewsRequest {
+	return &StopNewsRequest{
+		Command: CmdStopNews,
 	}
 }
 
