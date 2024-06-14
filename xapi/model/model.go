@@ -687,3 +687,37 @@ type StepRuleRecord struct {
 }
 
 type StepRuleRecords []StepRuleRecord
+
+type GetSymbolRequestArgs struct {
+	// symbol
+	Symbol string `json:"symbol"`
+}
+
+type GetSymbolRequest Request[GetSymbolRequestArgs]
+type GetSymbolRequestOption func(request *GetSymbolRequest)
+type GetSymbolResponse Response[SymbolRecord]
+
+func NewGetSymbolRequest(symbol string, opts ...GetSymbolRequestOption) (r *GetSymbolRequest) {
+	r = &GetSymbolRequest{
+		Command: CmdGetSymbol,
+		Arguments: GetSymbolRequestArgs{
+			Symbol: symbol,
+		},
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetSymbolRequestWithCustomTag(tag string) GetSymbolRequestOption {
+	return func(request *GetSymbolRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetSymbolRequestWithPrettyPrint(flag bool) GetSymbolRequestOption {
+	return func(request *GetSymbolRequest) {
+		request.PrettyPrint = true
+	}
+}

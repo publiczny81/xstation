@@ -1,0 +1,6 @@
+{
+  "command": "getSymbol",
+  "arguments": {
+    "symbol": "EURPLN"
+  }
+}
