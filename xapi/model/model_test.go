@@ -232,6 +232,17 @@ func TestConstructor(t *testing.T) {
 				Command: CmdGetServerTime,
 			},
 		},
+		{
+			Name: CmdGetStepRules,
+			RequestFactory: func() any {
+				return NewGetStepRulesRequest(GetStepRulesRequestWithCustomTag("tag"), GetStepRulesRequestWithPrettyPrint(true))
+			},
+			Want: &GetStepRulesRequest{
+				Command:     CmdGetStepRules,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -647,6 +658,43 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 					{
 						Want:   "testdata/getServerTime.request.json",
 						Actual: NewGetServerTimeRequest(GetServerTimeRequestWithCustomTag("tag"), GetServerTimeRequestWithPrettyPrint(true)),
+					},
+					{
+						Want: "testdata/getServerTime.response.json",
+						Actual: &GetServerTimeResponse{
+							Status: true,
+							ReturnData: ServerTimeRecord{
+								Time:       1392211379731,
+								TimeString: "Feb 12, 2014 2:22:59 PM",
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetStepRules,
+				Data: []testData{
+					{
+						Want:   "testdata/getStepRules.request.json",
+						Actual: NewGetStepRulesRequest(GetStepRulesRequestWithCustomTag("tag"), GetStepRulesRequestWithPrettyPrint(true)),
+					},
+					{
+						Want: "testdata/getStepRules.response.json",
+						Actual: &GetStepRulesResponse{
+							Status: true,
+							ReturnData: []StepRuleRecord{
+								{
+									Id:   1,
+									Name: "Forex",
+									Steps: []StepRecord{
+										{
+											FromValue: 0.1,
+											Step:      0.0025,
+										},
+									},
+								},
+							},
+						},
 					},
 				},
 			},

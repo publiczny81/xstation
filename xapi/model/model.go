@@ -523,6 +523,33 @@ func GetServerTimeRequestWithPrettyPrint(flag bool) GetServerTimeRequestOption {
 	}
 }
 
+type GetStepRulesRequest Request[Nil]
+type GetStepRulesRequestOption func(rules *GetStepRulesRequest)
+type GetStepRulesResponse Response[StepRuleRecords]
+
+func NewGetStepRulesRequest(opts ...GetStepRulesRequestOption) (r *GetStepRulesRequest) {
+	r = &GetStepRulesRequest{
+		Command: CmdGetStepRules,
+	}
+
+	for _, o := range opts {
+		o(r)
+	}
+	return r
+}
+
+func GetStepRulesRequestWithCustomTag(tag string) GetStepRulesRequestOption {
+	return func(rules *GetStepRulesRequest) {
+		rules.CustomTag = tag
+	}
+}
+
+func GetStepRulesRequestWithPrettyPrint(flag bool) GetStepRulesRequestOption {
+	return func(rules *GetStepRulesRequest) {
+		rules.PrettyPrint = flag
+	}
+}
+
 type Nil any
 type ReturnData struct {
 	SymbolRecords []*SymbolRecord
@@ -642,3 +669,21 @@ func NewGetProfitCalculationRequest(symbol string, cmd int, openPrice, closePric
 		},
 	}
 }
+
+type StepRecord struct {
+	// lower border of the volume range
+	FromValue float64 `json:"fromValue"`
+	//lot step value in the given volume range
+	Step float64 `json:"step"`
+}
+
+type StepRuleRecord struct {
+	// step rule ID
+	Id int `json:"id"`
+	// step rule name
+	Name string `json:"name"`
+	// array of steps
+	Steps []StepRecord `json:"steps"`
+}
+
+type StepRuleRecords []StepRuleRecord

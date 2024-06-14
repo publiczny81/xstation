@@ -1,0 +1,5 @@
+{
+  "command": "getStepRules",
+  "customTag": "tag",
+  "prettyPrint": true
+}
