@@ -195,19 +195,6 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
-			Name: CmdPing,
-			RequestFactory: func() any {
-				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
-			},
-			Want: &PingRequest{
-				Request: Request[Nil]{
-					Command:     CmdPing,
-					CustomTag:   "tag",
-					PrettyPrint: true,
-				},
-			},
-		},
-		{
 			Name: CmdGetProfitCalculation,
 			RequestFactory: func() any {
 				return NewGetProfitCalculationRequest("USDPLN", 1, 1.1, 1.2, 3)
@@ -221,6 +208,28 @@ func TestConstructor(t *testing.T) {
 					ClosePrice: 1.2,
 					Volume:     3,
 				},
+			},
+		},
+		{
+			Name: CmdPing,
+			RequestFactory: func() any {
+				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
+			},
+			Want: &PingRequest{
+				Request: Request[Nil]{
+					Command:     CmdPing,
+					CustomTag:   "tag",
+					PrettyPrint: true,
+				},
+			},
+		},
+		{
+			Name: CmdGetServerTime,
+			RequestFactory: func() any {
+				return NewGetServerTimeRequest()
+			},
+			Want: &GetServerTimeRequest{
+				Command: CmdGetServerTime,
 			},
 		},
 	}
@@ -603,10 +612,8 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 				Name: CmdPing,
 				Data: []testData{
 					{
-						Want: "testdata/ping.request.json",
-						Actual: NewPingRequest(
-							PingRequestWithCustomTag("tag"),
-							PingRequestWithStreamSessionId("1234567890")),
+						Want:   "testdata/ping.request.json",
+						Actual: NewPingRequest(PingRequestWithCustomTag("tag")),
 					},
 					{
 						Want: "testdata/ping.response.json",
@@ -631,6 +638,15 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								Profit: 714.303,
 							},
 						},
+					},
+				},
+			},
+			{
+				Name: CmdGetServerTime,
+				Data: []testData{
+					{
+						Want:   "testdata/getServerTime.request.json",
+						Actual: NewGetServerTimeRequest(GetServerTimeRequestWithCustomTag("tag"), GetServerTimeRequestWithPrettyPrint(true)),
 					},
 				},
 			},

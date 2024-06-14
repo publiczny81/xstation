@@ -1,0 +1,5 @@
+{
+  "command": "getServerTime",
+  "customTag": "tag",
+  "prettyPrint": true
+}

@@ -463,7 +463,6 @@ func NewGetMarginTradeRequest(symbol string, volume float64, opts ...GetMarginTr
 
 type PingRequest struct {
 	Request[Nil]
-	StreamSessionId string `json:"streamSessionId,omitempty"`
 }
 
 type PingResponse Response[Nil]
@@ -481,12 +480,6 @@ func PingRequestWithPrettyPrint(flag bool) PingRequestOption {
 	}
 }
 
-func PingRequestWithStreamSessionId(id string) PingRequestOption {
-	return func(request *PingRequest) {
-		request.StreamSessionId = id
-	}
-}
-
 func NewPingRequest(opts ...PingRequestOption) (r *PingRequest) {
 	r = &PingRequest{
 		Request: Request[Nil]{
@@ -497,6 +490,37 @@ func NewPingRequest(opts ...PingRequestOption) (r *PingRequest) {
 		o(r)
 	}
 	return
+}
+
+type ServerTimeRecord struct {
+	Time       int    `json:"time"`
+	TimeString string `json:"timeString"`
+}
+
+type GetServerTimeRequest Request[Nil]
+type GetServerTimeRequestOption func(request *GetServerTimeRequest)
+type GetServerTimeResponse Response[ServerTimeRecord]
+
+func NewGetServerTimeRequest(opts ...GetServerTimeRequestOption) (r *GetServerTimeRequest) {
+	r = &GetServerTimeRequest{
+		Command: CmdGetServerTime,
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetServerTimeRequestWithCustomTag(tag string) GetServerTimeRequestOption {
+	return func(request *GetServerTimeRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetServerTimeRequestWithPrettyPrint(flag bool) GetServerTimeRequestOption {
+	return func(request *GetServerTimeRequest) {
+		request.PrettyPrint = flag
+	}
 }
 
 type Nil any
