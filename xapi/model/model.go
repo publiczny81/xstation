@@ -796,3 +796,96 @@ func GetTickPricesRequestWithPrettyPrint(flag bool) GetTickPricesRequestOption {
 		r.PrettyPrint = flag
 	}
 }
+
+type GetTradeRecordsRequestArgs struct {
+	// Array of orders (position numbers)
+	Orders []int `json:"orders"`
+}
+
+type TradeRecord struct {
+	// Close price in base currency
+	ClosePrice float64 `json:"close_price"`
+	// Null if order is not closed
+	CloseTime *int `json:"close_time"`
+	// Null if order is not closed
+	CloseTimeString *string `json:"close_timeString"`
+	// Closed
+	Closed bool `json:"closed"`
+	// Operation code
+	Cmd int `json:"cmd"`
+	// Comment
+	Comment string `json:"comment"`
+	// Commission in account currency, null if not applicable
+	Commission float64 `json:"commission"`
+	// The value the customer may provide in order to retrieve it later.
+	CustomComment string `json:"customComment"`
+	// Number of decimal places
+	Digits int `json:"digits"`
+	// Null if order is not closed
+	Expiration *int `json:"expiration"`
+	// Null if order is not closed
+	ExpirationString *string `json:"expirationString"`
+	// Margin rate
+	MarginRate float64 `json:"margin_rate"`
+	// Trailing offset
+	Offset int `json:"offset"`
+	// Open price in base currency
+	OpenPrice float64 `json:"open_price"`
+	// Open time
+	OpenTime int `json:"open_time"`
+	// Open time string
+	OpenTimeString string `json:"open_timeString"`
+	// Order number for opened transaction
+	Order int `json:"order"`
+	// 	Order number for closed transaction
+	Order2 int `json:"order2"`
+	// Order number common both for opened and closed transaction
+	Position int `json:"position"`
+	// Profit in account currency
+	Profit float64 `json:"profit"`
+	// Zero if stop loss is not set (in base currency)
+	StopLoss float64 `json:"sl"`
+	// order swaps in account currency
+	Storage float64 `json:"storage"`
+	// symbol name or null for deposit/withdrawal operations
+	Symbol string `json:"symbol"`
+	// Timestamp
+	Timestamp int `json:"timestamp"`
+	// Zero if take profit is not set (in base currency)
+	TakeProfit float64 `json:"tp"`
+	// Volume in lots
+	Volume float64 `json:"volume"`
+}
+
+type TradeRecords []TradeRecord
+type GetTradeRecordsRequest Request[GetTradeRecordsRequestArgs]
+type GetTradeRecordsRequestOption func(*GetTradeRecordsRequest)
+type GetTradeRecordsResponse Response[TradeRecords]
+
+func NewGetTradeRecordsRequest(opts ...GetTradeRecordsRequestOption) (r *GetTradeRecordsRequest) {
+	r = &GetTradeRecordsRequest{
+		Command: CmdGetTradeRecords,
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetTradeRecordsRequestWithOrder(order int) GetTradeRecordsRequestOption {
+	return func(request *GetTradeRecordsRequest) {
+		request.Arguments.Orders = append(request.Arguments.Orders, order)
+	}
+}
+
+func GetTradeRecordsRequestWithCustomTag(tag string) GetTradeRecordsRequestOption {
+	return func(request *GetTradeRecordsRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetTradeRecordsRequestWithPrettyPrint(flag bool) GetTradeRecordsRequestOption {
+	return func(request *GetTradeRecordsRequest) {
+		request.PrettyPrint = flag
+	}
+}

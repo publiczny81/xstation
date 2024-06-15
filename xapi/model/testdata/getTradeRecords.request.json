@@ -1,0 +1,6 @@
+{
+  "command": "getTradeRecords",
+  "arguments": {
+    "orders": [7489839, 7489841]
+  }
+}

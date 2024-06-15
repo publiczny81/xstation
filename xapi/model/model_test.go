@@ -265,6 +265,22 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
+			Name: CmdGetTradeRecords,
+			RequestFactory: func() any {
+				return NewGetTradeRecordsRequest(GetTradeRecordsRequestWithOrder(1),
+					GetTradeRecordsRequestWithCustomTag("tag"),
+					GetTradeRecordsRequestWithPrettyPrint(true))
+			},
+			Want: &GetTradeRecordsRequest{
+				Command:     CmdGetTradeRecords,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: GetTradeRecordsRequestArgs{
+					Orders: []int{1},
+				},
+			},
+		},
+		{
 			Name: CmdPing,
 			RequestFactory: func() any {
 				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
@@ -827,6 +843,54 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 										Symbol:      "KOMB.CZ",
 										Timestamp:   1272529161605,
 									},
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetTradeRecords,
+				Data: []testData{
+					{
+						Want: "testdata/getTradeRecords.request.json",
+						Actual: NewGetTradeRecordsRequest(
+							GetTradeRecordsRequestWithOrder(7489839),
+							GetTradeRecordsRequestWithOrder(7489841),
+						),
+					},
+					{
+						Want: "testdata/getTradeRecords.response.json",
+						Actual: &GetTradeRecordsResponse{
+							Status: true,
+							ReturnData: TradeRecords{
+								{
+									ClosePrice:       1.3256,
+									CloseTime:        nil,
+									CloseTimeString:  nil,
+									Closed:           false,
+									Cmd:              OperationCodeBuy,
+									Comment:          "Web Trader",
+									Commission:       0.0,
+									CustomComment:    "Some text",
+									Digits:           4,
+									Expiration:       nil,
+									ExpirationString: nil,
+									MarginRate:       0,
+									Offset:           0,
+									OpenPrice:        1.4,
+									OpenTime:         1272380927000,
+									OpenTimeString:   "Fri Jan 11 10:03:36 CET 2013",
+									Order:            7497776,
+									Order2:           1234567,
+									Position:         1234567,
+									Profit:           -2196.44,
+									StopLoss:         0.0,
+									Storage:          -4.46,
+									Symbol:           "EURUSD",
+									Timestamp:        1272540251000,
+									TakeProfit:       0.0,
+									Volume:           0.1,
 								},
 							},
 						},
