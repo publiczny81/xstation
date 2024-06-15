@@ -721,3 +721,78 @@ func GetSymbolRequestWithPrettyPrint(flag bool) GetSymbolRequestOption {
 		request.PrettyPrint = true
 	}
 }
+
+type GetTickPricesRequestArgs struct {
+	// price level
+	Level int `json:"level"`
+	// Array of symbol names
+	Symbols []string `json:"symbols"`
+	// The time from which the most recent tick should be looked for. Historical prices cannot be obtained using this parameter.
+	// It can only be used to verify whether a price has changed since the given time
+	Timestamp int `json:"timestamp"`
+}
+
+type TickRecord struct {
+	//Ask price in base currency
+	Ask float64 `json:"ask"`
+	//Number of available lots to buy at given price or nil if not applicable
+	AskVolume *int `json:"askVolume"`
+	// Bid price in base currency
+	Bid float64 `json:"bid"`
+	// Number of available lots to sell at given price or nil if not applicable
+	BidVolume *int `json:"bidVolume"`
+	// The highest price of the day in base currency
+	High float64 `json:"high"`
+	// Price level
+	Level int `json:"level"`
+	// The lowest price of the day in base currency
+	Low float64 `json:"low"`
+	// The difference between raw ask and bid prices
+	SpreadRaw float64 `json:"spreadRaw"`
+	// Spread representation
+	SpreadTable float64 `json:"spreadTable"`
+	// Symbol
+	Symbol string `json:"symbol"`
+	// Timestamp
+	Timestamp int `json:"timestamp"`
+}
+
+type GetTickPricesData struct {
+	Quotations []TickRecord `json:"quotations"`
+}
+
+type GetTickPricesRequest Request[GetTickPricesRequestArgs]
+type GetTickPricesRequestOption func(r *GetTickPricesRequest)
+type GetTickPricesResponse Response[GetTickPricesData]
+
+func NewGetTickPricesRequest(level int, timestamp int, opts ...GetTickPricesRequestOption) (r *GetTickPricesRequest) {
+	r = &GetTickPricesRequest{
+		Command: CmdGetTickPrices,
+		Arguments: GetTickPricesRequestArgs{
+			Level:     level,
+			Timestamp: timestamp,
+		},
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetTickPricesRequestWithSymbol(symbol string) GetTickPricesRequestOption {
+	return func(r *GetTickPricesRequest) {
+		r.Arguments.Symbols = append(r.Arguments.Symbols, symbol)
+	}
+}
+
+func GetTickPricesRequestWithCustomTag(tag string) GetTickPricesRequestOption {
+	return func(r *GetTickPricesRequest) {
+		r.CustomTag = tag
+	}
+}
+
+func GetTickPricesRequestWithPrettyPrint(flag bool) GetTickPricesRequestOption {
+	return func(r *GetTickPricesRequest) {
+		r.PrettyPrint = flag
+	}
+}

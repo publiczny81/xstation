@@ -1,0 +1,8 @@
+{
+  "command": "getTickPrices",
+  "arguments": {
+    "level": 0,
+    "symbols": ["EURPLN", "AGO.PL"],
+    "timestamp": 1262944112000
+  }
+}

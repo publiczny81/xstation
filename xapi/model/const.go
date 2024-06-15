@@ -182,3 +182,8 @@ const (
 	QuoteIdDepth = 3
 	QuoteIdCross = 4
 )
+
+const (
+	LevelAll       = -1 // all available levels
+	LevelBasePrice = 0  // base level bid and ask price for instrument
+)

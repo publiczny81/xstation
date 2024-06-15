@@ -211,19 +211,6 @@ func TestConstructor(t *testing.T) {
 			},
 		},
 		{
-			Name: CmdPing,
-			RequestFactory: func() any {
-				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
-			},
-			Want: &PingRequest{
-				Request: Request[Nil]{
-					Command:     CmdPing,
-					CustomTag:   "tag",
-					PrettyPrint: true,
-				},
-			},
-		},
-		{
 			Name: CmdGetServerTime,
 			RequestFactory: func() any {
 				return NewGetServerTimeRequest()
@@ -255,6 +242,39 @@ func TestConstructor(t *testing.T) {
 				},
 				PrettyPrint: true,
 				CustomTag:   "tag",
+			},
+		},
+		{
+			Name: CmdGetTickPrices,
+			RequestFactory: func() any {
+				return NewGetTickPricesRequest(LevelAll,
+					1234567890,
+					GetTickPricesRequestWithSymbol("EURPLN"),
+					GetTickPricesRequestWithCustomTag("tag"),
+					GetTickPricesRequestWithPrettyPrint(true))
+			},
+			Want: &GetTickPricesRequest{
+				Command:     CmdGetTickPrices,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: GetTickPricesRequestArgs{
+					Level:     LevelAll,
+					Timestamp: 1234567890,
+					Symbols:   []string{"EURPLN"},
+				},
+			},
+		},
+		{
+			Name: CmdPing,
+			RequestFactory: func() any {
+				return NewPingRequest(PingRequestWithCustomTag("tag"), PingRequestWithPrettyPrint(true))
+			},
+			Want: &PingRequest{
+				Request: Request[Nil]{
+					Command:     CmdPing,
+					CustomTag:   "tag",
+					PrettyPrint: true,
+				},
 			},
 		},
 	}
@@ -769,6 +789,45 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								TimeString:         "Thu May 23 12:23:44 EDT 2013",
 								TrailingEnabled:    true,
 								Type:               21,
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetTickPrices,
+				Data: []testData{
+					{
+						Want: "testdata/getTickPrices.request.json",
+						Actual: &GetTickPricesRequest{
+							Command: CmdGetTickPrices,
+							Arguments: GetTickPricesRequestArgs{
+								Level:     0,
+								Symbols:   []string{"EURPLN", "AGO.PL"},
+								Timestamp: 1262944112000,
+							},
+						},
+					},
+					{
+						Want: "testdata/getTickPrices.response.json",
+						Actual: &GetTickPricesResponse{
+							Status: true,
+							ReturnData: GetTickPricesData{
+								Quotations: []TickRecord{
+									{
+										Ask:         4000.0,
+										AskVolume:   utils.Pointer(15000),
+										Bid:         4000.0,
+										BidVolume:   utils.Pointer(16000),
+										High:        4000.0,
+										Level:       0,
+										Low:         3500,
+										SpreadRaw:   0.000003,
+										SpreadTable: 0.00042,
+										Symbol:      "KOMB.CZ",
+										Timestamp:   1272529161605,
+									},
+								},
 							},
 						},
 					},
