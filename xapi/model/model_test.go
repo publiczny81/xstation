@@ -293,6 +293,22 @@ func TestConstructor(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name: CmdGetTrades,
+			RequestFactory: func() any {
+				return NewGetTradesRequest(GetTradesRequestWithOpenedOnly(true),
+					GetTradesRequestWithCustomTag("tag"),
+					GetTradesRequestWithPrettyPrint(true))
+			},
+			Want: &GetTradesRequest{
+				Command:     CmdGetTrades,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: GetTradesArgs{
+					OpenedOnly: true,
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -890,6 +906,51 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 									Symbol:           "EURUSD",
 									Timestamp:        1272540251000,
 									TakeProfit:       0.0,
+									Volume:           0.1,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetTrades,
+				Data: []testData{
+					{
+						Want:   "testdata/getTrades.request.json",
+						Actual: NewGetTradesRequest(GetTradesRequestWithOpenedOnly(true)),
+					},
+					{
+						Want: "testdata/getTrades.response.json",
+						Actual: &GetTradesResponse{
+							Status: true,
+							ReturnData: []TradeRecord{
+								{
+									ClosePrice:       1.3256,
+									CloseTime:        nil,
+									CloseTimeString:  nil,
+									Closed:           false,
+									Cmd:              OperationCodeBuy,
+									Comment:          "Web Trader",
+									Commission:       0,
+									CustomComment:    "Some text",
+									Digits:           4,
+									Expiration:       nil,
+									ExpirationString: nil,
+									MarginRate:       0,
+									Offset:           0,
+									OpenPrice:        1.4,
+									OpenTime:         1272380927000,
+									OpenTimeString:   "Fri Jan 11 10:03:36 CET 2013",
+									Order:            7497776,
+									Order2:           1234567,
+									Position:         1234567,
+									Profit:           -2196.44,
+									StopLoss:         0,
+									Storage:          -4.46,
+									Symbol:           "EURUSD",
+									Timestamp:        1272540251000,
+									TakeProfit:       0,
 									Volume:           0.1,
 								},
 							},

@@ -889,3 +889,41 @@ func GetTradeRecordsRequestWithPrettyPrint(flag bool) GetTradeRecordsRequestOpti
 		request.PrettyPrint = flag
 	}
 }
+
+type GetTradesArgs struct {
+	// If true then only opened trades will be returned
+	OpenedOnly bool `json:"openedOnly"`
+}
+
+type GetTradesRequest Request[GetTradesArgs]
+type GetTradesRequestOption func(request *GetTradesRequest)
+type GetTradesResponse Response[TradeRecords]
+
+func NewGetTradesRequest(opts ...GetTradesRequestOption) (r *GetTradesRequest) {
+	r = &GetTradesRequest{
+		Command: CmdGetTrades,
+	}
+
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetTradesRequestWithOpenedOnly(flag bool) GetTradesRequestOption {
+	return func(request *GetTradesRequest) {
+		request.Arguments.OpenedOnly = flag
+	}
+}
+
+func GetTradesRequestWithCustomTag(tag string) GetTradesRequestOption {
+	return func(request *GetTradesRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetTradesRequestWithPrettyPrint(flag bool) GetTradesRequestOption {
+	return func(request *GetTradesRequest) {
+		request.PrettyPrint = flag
+	}
+}
