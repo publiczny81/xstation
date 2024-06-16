@@ -927,3 +927,38 @@ func GetTradesRequestWithPrettyPrint(flag bool) GetTradesRequestOption {
 		request.PrettyPrint = flag
 	}
 }
+
+type GetTradesHistoryArgs struct {
+	End   int `json:"end"`
+	Start int `json:"start"`
+}
+
+type GetTradesHistoryRequest Request[GetTradesHistoryArgs]
+type GetTradesHistoryRequestOption func(request *GetTradesHistoryRequest)
+type GetTradesHistoryResponse Response[TradeRecords]
+
+func NewGetTradesHistoryRequest(start, end int, opts ...GetTradesHistoryRequestOption) (r *GetTradesHistoryRequest) {
+	r = &GetTradesHistoryRequest{
+		Command: CmdGetTradesHistory,
+		Arguments: GetTradesHistoryArgs{
+			Start: start,
+			End:   end,
+		},
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return r
+}
+
+func GetTradesHistoryRequestWithCustomTag(tag string) GetTradesHistoryRequestOption {
+	return func(request *GetTradesHistoryRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetTradesHistoryRequestWithPrettyPrint(flag bool) GetTradesHistoryRequestOption {
+	return func(request *GetTradesHistoryRequest) {
+		request.PrettyPrint = flag
+	}
+}
