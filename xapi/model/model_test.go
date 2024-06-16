@@ -342,6 +342,18 @@ func TestConstructor(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name: CmdGetVersion,
+			RequestFactory: func() any {
+				return NewGetVersionRequest(GetVersionRequestWithCustomTag("tag"),
+					GetVersionRequestWithPrettyPrint(true))
+			},
+			Want: &GetVersionRequest{
+				Command:     CmdGetVersion,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -1070,6 +1082,24 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 										},
 									},
 								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetVersion,
+				Data: []testData{
+					{
+						Want:   "testdata/getVersion.request.json",
+						Actual: NewGetVersionRequest(),
+					},
+					{
+						Want: "testdata/getVersion.response.json",
+						Actual: &GetVersionResponse{
+							Status: true,
+							ReturnData: VersionData{
+								Version: "2.4.15",
 							},
 						},
 					},

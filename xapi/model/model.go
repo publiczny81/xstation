@@ -1020,3 +1020,33 @@ func GetTradingHoursRequestWithPrettyPrint(flag bool) GetTradingHoursRequestOpti
 		request.PrettyPrint = flag
 	}
 }
+
+type VersionData struct {
+	Version string `json:"version"`
+}
+
+type GetVersionRequest Request[Nil]
+type GetVersionRequestOption func(request *GetVersionRequest)
+type GetVersionResponse Response[VersionData]
+
+func NewGetVersionRequest(opts ...GetVersionRequestOption) (r *GetVersionRequest) {
+	r = &GetVersionRequest{
+		Command: CmdGetVersion,
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return r
+}
+
+func GetVersionRequestWithCustomTag(tag string) GetVersionRequestOption {
+	return func(request *GetVersionRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetVersionRequestWithPrettyPrint(flag bool) GetVersionRequestOption {
+	return func(request *GetVersionRequest) {
+		request.PrettyPrint = flag
+	}
+}
