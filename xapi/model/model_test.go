@@ -326,6 +326,22 @@ func TestConstructor(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name: CmdGetTradingHours,
+			RequestFactory: func() any {
+				return NewGetTradingHoursRequest(GetTradingHoursRequestWithSymbol("USDPLN"),
+					GetTradingHoursRequestWithCustomTag("tag"),
+					GetTradingHoursRequestWithPrettyPrint(true))
+			},
+			Want: &GetTradingHoursRequest{
+				Command:     CmdGetTradingHours,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: GetTradingHoursArgs{
+					Symbols: []string{"USDPLN"},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -1014,6 +1030,45 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 									Timestamp:        1272540251000,
 									TakeProfit:       0,
 									Volume:           0.1,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdGetTradingHours,
+				Data: []testData{
+					{
+						Want: "testdata/getTradingHours.request.json",
+						Actual: &GetTradingHoursRequest{
+							Command: CmdGetTradingHours,
+							Arguments: GetTradingHoursArgs{
+								Symbols: []string{"EURPLN", "AGO.PL"},
+							},
+						},
+					},
+					{
+						Want: "testdata/getTradingHours.response.json",
+						Actual: &GetTradingHoursResponse{
+							Status: true,
+							ReturnData: TradingHoursRecords{
+								{
+									Quotes: []QuoteRecord{
+										{
+											Day:   2,
+											FromT: 63000000,
+											ToT:   63300000,
+										},
+									},
+									Symbol: "USDPLN",
+									Trading: []TradingRecord{
+										{
+											Day:   2,
+											FromT: 63000000,
+											ToT:   63300000,
+										},
+									},
 								},
 							},
 						},

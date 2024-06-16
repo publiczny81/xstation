@@ -962,3 +962,61 @@ func GetTradesHistoryRequestWithPrettyPrint(flag bool) GetTradesHistoryRequestOp
 		request.PrettyPrint = flag
 	}
 }
+
+type GetTradingHoursArgs struct {
+	// Array of symbol names
+	Symbols []string `json:"symbols"`
+}
+
+type QuoteRecord struct {
+	// Day of week
+	Day int `json:"day"`
+	// Start time in ms from 00:00 CET / CEST time zone (see Daylight Saving Time, DST)
+	FromT int `json:"fromT"`
+	// End time in ms from 00:00 CET / CEST time zone (see Daylight Saving Time, DST)
+	ToT int `json:"toT"`
+}
+
+type TradingRecord QuoteRecord
+
+type TradingHoursRecord struct {
+	// Array of QuoteRecord
+	Quotes []QuoteRecord `json:"quotes"`
+	// Symbol
+	Symbol string `json:"symbol"`
+	// Array of TradingRecord
+	Trading []TradingRecord `json:"trading"`
+}
+type TradingHoursRecords []TradingHoursRecord
+
+type GetTradingHoursRequest Request[GetTradingHoursArgs]
+type GetTradingHoursRequestOption func(*GetTradingHoursRequest)
+type GetTradingHoursResponse Response[TradingHoursRecords]
+
+func NewGetTradingHoursRequest(opts ...GetTradingHoursRequestOption) (r *GetTradingHoursRequest) {
+	r = &GetTradingHoursRequest{
+		Command: CmdGetTradingHours,
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func GetTradingHoursRequestWithSymbol(symbol string) GetTradingHoursRequestOption {
+	return func(request *GetTradingHoursRequest) {
+		request.Arguments.Symbols = append(request.Arguments.Symbols, symbol)
+	}
+}
+
+func GetTradingHoursRequestWithCustomTag(tag string) GetTradingHoursRequestOption {
+	return func(request *GetTradingHoursRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetTradingHoursRequestWithPrettyPrint(flag bool) GetTradingHoursRequestOption {
+	return func(request *GetTradingHoursRequest) {
+		request.PrettyPrint = flag
+	}
+}

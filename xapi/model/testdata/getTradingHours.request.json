@@ -1,0 +1,6 @@
+{
+  "command": "getTradingHours",
+  "arguments": {
+    "symbols": ["EURPLN", "AGO.PL"]
+  }
+}
