@@ -228,30 +228,30 @@ type StreamingTickRecord struct {
 }
 
 type StreamingTradeRecord struct {
-	ClosePrice    float64 `json:"close_price"`
-	CloseTime     *int    `json:"close_time,omitempty"`
-	Closed        bool    `json:"closed"`
-	Cmd           int     `json:"cmd"`
-	Comment       string  `json:"comment"`
-	Commission    float64 `json:"commission"`
-	CustomComment string  `json:"customComment"`
-	Digits        int     `json:"digits"`
-	Expiration    *int    `json:"expiration,omitempty"`
-	MarginRate    float64 `json:"margin_rate"`
-	Offset        int     `json:"offset"`
-	OpenPrice     float64 `json:"open_price"`
-	OpenTime      int     `json:"open_time"`
-	Order         int     `json:"order"`
-	TransactionId int     `json:"order2"`
-	Position      int     `json:"position"`
-	Profit        float64 `json:"profit"`
-	StopLoss      float64 `json:"sl"`
-	State         string  `json:"state"`
-	Storage       float64 `json:"storage"`
-	Symbol        string  `json:"symbol"`
-	TakeProfit    float64 `json:"tp"`
-	Type          int     `json:"type"`
-	Volume        float64 `json:"volume"`
+	ClosePrice    float64 `json:"close_price" mapstructure:"close_price"`
+	CloseTime     *int    `json:"close_time" mapstructure:"close_time"`
+	Closed        bool    `json:"closed" mapstructure:"closed"`
+	Cmd           int     `json:"cmd" mapstructure:"cmd"`
+	Comment       string  `json:"comment" mapstructure:"comment"`
+	Commission    float64 `json:"commission" mapstructure:"commission"`
+	CustomComment string  `json:"customComment" mapstructure:"customComment"`
+	Digits        int     `json:"digits" mapstructure:"digits"`
+	Expiration    *int    `json:"expiration" mapstructure:"expiration,omitempty"`
+	MarginRate    float64 `json:"margin_rate" mapstructure:"margin_rate"`
+	Offset        int     `json:"offset" mapstructure:"offset"`
+	OpenPrice     float64 `json:"open_price" mapstructure:"open_price"`
+	OpenTime      int     `json:"open_time" mapstructure:"open_time"`
+	Order         int     `json:"order"mapstructure:"order"`
+	TransactionId int     `json:"order2" mapstructure:"order2"`
+	Position      int     `json:"position" mapstructure:"position"`
+	Profit        float64 `json:"profit" mapstructure:"profit"`
+	StopLoss      float64 `json:"sl" mapstructure:"sl"`
+	State         string  `json:"state" mapstructure:"state"`
+	Storage       float64 `json:"storage" mapstructure:"storage"`
+	Symbol        string  `json:"symbol" mapstructure:"symbol"`
+	TakeProfit    float64 `json:"tp" mapstructure:"tp"`
+	Type          int     `json:"type" mapstructure:"type"`
+	Volume        float64 `json:"volume" mapstructure:"volume"`
 }
 
 type StreamingTradeStatusRecord struct {
@@ -307,5 +307,22 @@ func NewStopTickPricesRequest(symbol string) *StopTickPricesRequest {
 	return &StopTickPricesRequest{
 		Request: Request{Command: CmdStopTickPrices},
 		Symbol:  symbol,
+	}
+}
+
+type GetTradesRequest Request
+
+func NewGetTradesRequest(streamSessionId string) *GetTradesRequest {
+	return &GetTradesRequest{
+		Command:         CmdGetTrades,
+		StreamSessionId: streamSessionId,
+	}
+}
+
+type StopTradesRequest Request
+
+func NewStopTradesRequest() *StopTradesRequest {
+	return &StopTradesRequest{
+		Command: CmdStopTrades,
 	}
 }

@@ -30,3 +30,8 @@ const (
 	DataStreamTrade       = "trade"
 	DataStreamTradeStatus = "tradeStatus"
 )
+
+const (
+	StateModified = "Modified"
+	StateDeleted  = "Deleted"
+)

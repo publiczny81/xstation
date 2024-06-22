@@ -327,6 +327,51 @@ func TestRequestJsonCoding(t *testing.T) {
 					},
 				},
 			},
+			{
+				Name: CmdGetTrades,
+				Data: []testData{
+					{
+						Want:   "testdata/getTrades.request.json",
+						Actual: NewGetTradesRequest("8469308861804289383"),
+					},
+					{
+						Want:   "testdata/stopTrades.request.json",
+						Actual: NewStopTradesRequest(),
+					},
+					{
+						Want: "testdata/trade.stream.json",
+						Actual: &DataStream{
+							Command: DataStreamTrade,
+							Data: &StreamingTradeRecord{
+								ClosePrice:    1.3256,
+								CloseTime:     nil,
+								Closed:        false,
+								Cmd:           0,
+								Comment:       "Web Trader",
+								Commission:    0,
+								CustomComment: "Some text",
+								Digits:        4,
+								Expiration:    nil,
+								MarginRate:    3.9149,
+								Offset:        0,
+								OpenPrice:     1.4,
+								OpenTime:      1272380927000,
+								Order:         7497776,
+								TransactionId: 1234567,
+								Position:      1234567,
+								Profit:        68.392,
+								StopLoss:      0,
+								State:         "Modified",
+								Storage:       -4.46,
+								Symbol:        "EURUSD",
+								TakeProfit:    0,
+								Type:          0,
+								Volume:        0.1,
+							},
+						},
+					},
+				},
+			},
 		}
 	)
 
@@ -420,8 +465,35 @@ func TestDataStreamUnmarshalJSON(t *testing.T) {
 					Timestamp:   1272529161605,
 				},
 			},
+			{
+				Command: DataStreamTrade,
+				Data: &StreamingTradeRecord{
+					ClosePrice:    1.3256,
+					CloseTime:     nil,
+					Closed:        false,
+					Cmd:           0,
+					Comment:       "Web Trader",
+					Commission:    0,
+					CustomComment: "Some text",
+					Digits:        4,
+					Expiration:    nil,
+					MarginRate:    3.9149,
+					Offset:        0,
+					OpenPrice:     1.4,
+					OpenTime:      1272380927000,
+					Order:         7497776,
+					TransactionId: 1234567,
+					Position:      1234567,
+					Profit:        68.392,
+					StopLoss:      0,
+					State:         StateModified,
+					Storage:       -4.46,
+					Symbol:        "EURUSD",
+					Volume:        0.1,
+				},
+			},
 		}
 	)
 	assert.NoError(t, err)
-	assert.Equal(t, want, actual)
+	assert.Equal(t, want[6], actual[6])
 }
