@@ -198,3 +198,11 @@ const (
 	OperationCodeBalance   = 6 // Read only. Used in getTradesHistory  for manager's deposit/withdrawal operations (profit>0 for deposit, profit<0 for withdrawal)
 	OperationCodeCredit    = 7 // Read only
 )
+
+const (
+	OperationTypeOpen = 0
+	OperationTypePending = 1
+	OperationTypeClose= 2
+	OperationTypeModify = 3
+	OperationTypeDelete = 4
+)

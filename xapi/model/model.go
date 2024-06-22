@@ -1050,3 +1050,106 @@ func GetVersionRequestWithPrettyPrint(flag bool) GetVersionRequestOption {
 		request.PrettyPrint = flag
 	}
 }
+
+type TradeTransInfo struct {
+	Cmd           int     `json:"cmd"`
+	CustomComment string  `json:"customComment,omitempty"`
+	Expiration    int     `json:"expiration"`
+	Offset        int     `json:"offset"`
+	Order         int     `json:"order"`
+	Price         float64 `json:"price"`
+	StopLoss      float64 `json:"sl"`
+	Symbol        string  `json:"symbol"`
+	TakeProfit    float64 `json:"tp"`
+	Type          int     `json:"type"`
+	Volume        float64 `json:"volume"`
+}
+
+type TradeTransactionArgs struct {
+	TradeTransInfo `json:"tradeTransInfo"`
+}
+
+type TradeTransactionData struct {
+	Order int `json:"order"`
+}
+
+type TradeTransactionRequest Request[TradeTransactionArgs]
+type TradeTransactionRequestOption func(request *TradeTransactionRequest) error
+type TradeTransactionResponse Response[TradeTransactionData]
+
+func NewTradeTransactionRequest(symbol string, operationCode, operationType int, price, volume float64, opts ...TradeTransactionRequestOption) (r *TradeTransactionRequest, err error) {
+	r = &TradeTransactionRequest{
+		Command: CmdTradeTransaction,
+		Arguments: TradeTransactionArgs{
+			TradeTransInfo{
+				Symbol: symbol,
+				Cmd:    operationCode,
+				Type:   operationType,
+				Price:  price,
+				Volume: volume,
+			},
+		},
+	}
+	for _, o := range opts {
+		if err = o(r); err != nil {
+			return
+		}
+	}
+	return
+}
+
+func TradeTransactionRequestWithCustomTag(tag string) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.CustomTag = tag
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithCustomComment(comment string) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.CustomComment = comment
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithExpiration(expiration int) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.Expiration = expiration
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithOffset(offset int) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.Offset = offset
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithOrder(order int) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.Order = order
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithPrettyPrint(flag bool) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.PrettyPrint = flag
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithStopLoss(stopLoss float64) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.StopLoss = stopLoss
+		return nil
+	}
+}
+
+func TradeTransactionRequestWithTakeProfit(takeProfit float64) TradeTransactionRequestOption {
+	return func(request *TradeTransactionRequest) error {
+		request.Arguments.TakeProfit = takeProfit
+		return nil
+	}
+}

@@ -354,6 +354,43 @@ func TestConstructor(t *testing.T) {
 				PrettyPrint: true,
 			},
 		},
+		{
+			Name: CmdTradeTransaction,
+			RequestFactory: func() (r any) {
+				r, _ = NewTradeTransactionRequest("USDPLN",
+					OperationCodeSell,
+					OperationTypeOpen,
+					4.01,
+					0.1,
+					TradeTransactionRequestWithCustomComment("comment"),
+					TradeTransactionRequestWithPrettyPrint(true),
+					TradeTransactionRequestWithCustomTag("tag"),
+					TradeTransactionRequestWithStopLoss(4.02),
+					TradeTransactionRequestWithTakeProfit(3.98),
+					TradeTransactionRequestWithOffset(3),
+					TradeTransactionRequestWithExpiration(1234567890))
+				return
+			},
+			Want: &TradeTransactionRequest{
+				Command:     CmdTradeTransaction,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: TradeTransactionArgs{
+					TradeTransInfo{
+						Cmd:           OperationCodeSell,
+						CustomComment: "comment",
+						Type:          OperationTypeOpen,
+						Price:         4.01,
+						Volume:        0.1,
+						TakeProfit:    3.98,
+						StopLoss:      4.02,
+						Symbol:        "USDPLN",
+						Offset:        3,
+						Expiration:    1234567890,
+					},
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -1100,6 +1137,38 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 							Status: true,
 							ReturnData: VersionData{
 								Version: "2.4.15",
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdTradeTransaction,
+				Data: []testData{
+					{
+						Want: "testdata/tradeTransaction.request.json",
+						Actual: &TradeTransactionRequest{
+							Command: "tradeTransaction",
+							Arguments: TradeTransactionArgs{
+								TradeTransInfo{
+									Cmd:           OperationCodeBuyLimit,
+									CustomComment: "Some text",
+									Expiration:    1462006335000,
+									Offset:        0,
+									Order:         82188055,
+									Price:         1.12,
+									Symbol:        "EURUSD",
+									Volume:        5.0,
+								},
+							},
+						},
+					},
+					{
+						Want: "testdata/tradeTransaction.response.json",
+						Actual: &TradeTransactionResponse{
+							Status: true,
+							ReturnData: TradeTransactionData{
+								Order: 43,
 							},
 						},
 					},
