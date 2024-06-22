@@ -1153,3 +1153,45 @@ func TradeTransactionRequestWithTakeProfit(takeProfit float64) TradeTransactionR
 		return nil
 	}
 }
+
+type TradeTransactionStatusArgs struct {
+	Order int `json:"order"`
+}
+
+type TradeTransactionStatusData struct {
+	Ask           float64 `json:"ask"`
+	Bid           float64 `json:"bid"`
+	CustomComment string  `json:"customComment,omitempty"`
+	Message       *string `json:"message"`
+	Order         int     `json:"order"`
+	RequestStatus int     `json:"requestStatus"`
+}
+
+type TradeTransactionStatusRequest Request[TradeTransactionStatusArgs]
+type TradeTransactionStatusRequestOption func(*TradeTransactionStatusRequest)
+type TradeTransactionStatusResponse Response[TradeTransactionStatusData]
+
+func NewTradeTransactionStatusRequest(order int, opts ...TradeTransactionStatusRequestOption) (r *TradeTransactionStatusRequest) {
+	r = &TradeTransactionStatusRequest{
+		Command: CmdTradeTransactionStatus,
+		Arguments: TradeTransactionStatusArgs{
+			Order: order,
+		},
+	}
+	for _, o := range opts {
+		o(r)
+	}
+	return
+}
+
+func TradeTransactionStatusRequestWithCustomTag(tag string) TradeTransactionStatusRequestOption {
+	return func(request *TradeTransactionStatusRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func TradeTransactionStatusRequestWithPrettyPrint(flag bool) TradeTransactionStatusRequestOption {
+	return func(request *TradeTransactionStatusRequest) {
+		request.PrettyPrint = flag
+	}
+}

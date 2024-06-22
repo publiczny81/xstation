@@ -391,6 +391,22 @@ func TestConstructor(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name: CmdTradeTransactionStatus,
+			RequestFactory: func() any {
+				return NewTradeTransactionStatusRequest(43,
+					TradeTransactionStatusRequestWithCustomTag("tag"),
+					TradeTransactionStatusRequestWithPrettyPrint(true))
+			},
+			Want: &TradeTransactionStatusRequest{
+				Command:     CmdTradeTransactionStatus,
+				CustomTag:   "tag",
+				PrettyPrint: true,
+				Arguments: TradeTransactionStatusArgs{
+					Order: 43,
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -1169,6 +1185,29 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 							Status: true,
 							ReturnData: TradeTransactionData{
 								Order: 43,
+							},
+						},
+					},
+				},
+			},
+			{
+				Name: CmdTradeTransactionStatus,
+				Data: []testData{
+					{
+						Want:   "testdata/tradeTransactionStatus.request.json",
+						Actual: NewTradeTransactionStatusRequest(43),
+					},
+					{
+						Want: "testdata/tradeTransactionStatus.response.json",
+						Actual: &TradeTransactionStatusResponse{
+							Status: true,
+							ReturnData: TradeTransactionStatusData{
+								Ask:           1.392,
+								Bid:           1.392,
+								CustomComment: "Some text",
+								Message:       nil,
+								Order:         43,
+								RequestStatus: RequestStatusAccepted,
 							},
 						},
 					},

@@ -200,9 +200,16 @@ const (
 )
 
 const (
-	OperationTypeOpen = 0
+	OperationTypeOpen    = 0
 	OperationTypePending = 1
-	OperationTypeClose= 2
-	OperationTypeModify = 3
-	OperationTypeDelete = 4
+	OperationTypeClose   = 2
+	OperationTypeModify  = 3
+	OperationTypeDelete  = 4
+)
+
+const (
+	RequestStatusError    = 0
+	RequestStatusPending  = 1
+	RequestStatusAccepted = 3
+	RequestStatusRejected = 4
 )
