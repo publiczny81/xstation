@@ -633,13 +633,18 @@ type NewsTopicRecord struct {
 
 type NewsTopicRecords []NewsTopicRecord
 type GetNewsRequest Request[NewsRequestArg]
+type GetNewsRequestOption func(request *GetNewsRequest)
 type GetNewsResponse Response[NewsTopicRecords]
 
-func NewGetNewsRequest(start, end int) *GetNewsRequest {
-	return &GetNewsRequest{
+func NewGetNewsRequest(start, end int, opts ...GetNewsRequestOption) (r *GetNewsRequest) {
+	r = &GetNewsRequest{
 		Command:   CmdGetNews,
 		Arguments: NewsRequestArg{End: end, Start: start},
 	}
+	for _, o := range opts {
+		o(r)
+	}
+	return r
 }
 
 type GetProfitCalculationArgs struct {
@@ -655,10 +660,11 @@ type ProfitRecord struct {
 }
 
 type GetProfitCalculationRequest Request[GetProfitCalculationArgs]
+type GetProfitCalculationRequestOption func(*GetProfitCalculationRequest)
 type GetProfitCalculationResponse Response[ProfitRecord]
 
-func NewGetProfitCalculationRequest(symbol string, cmd int, openPrice, closePrice, volume float64) *GetProfitCalculationRequest {
-	return &GetProfitCalculationRequest{
+func NewGetProfitCalculationRequest(symbol string, cmd int, openPrice, closePrice, volume float64, opts...GetProfitCalculationRequestOption) (r *GetProfitCalculationRequest) {
+	r = &GetProfitCalculationRequest{
 		Command: CmdGetProfitCalculation,
 		Arguments: GetProfitCalculationArgs{
 			ClosePrice: closePrice,
@@ -667,6 +673,24 @@ func NewGetProfitCalculationRequest(symbol string, cmd int, openPrice, closePric
 			Symbol:     symbol,
 			Volume:     volume,
 		},
+	}
+
+	for _, o := range opts {
+		o(r)
+	}
+
+	return
+}
+
+func GetProfitCalculationRequestWithCustomTag(tag string) GetProfitCalculationRequestOption {
+	return func(request *GetProfitCalculationRequest) {
+		request.CustomTag = tag
+	}
+}
+
+func GetProfitCalculationRequestWithPrettyPrint(flag bool) GetProfitCalculationRequestOption {
+	return func(request *GetProfitCalculationRequest) {
+		request.PrettyPrint = flag
 	}
 }
 

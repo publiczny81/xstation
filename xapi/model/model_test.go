@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"github.com/publiczny81/xstation/xapi/common"
 	"github.com/publiczny81/xstation/xapi/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/wI2L/jsondiff"
@@ -358,8 +359,8 @@ func TestConstructor(t *testing.T) {
 			Name: CmdTradeTransaction,
 			RequestFactory: func() (r any) {
 				r, _ = NewTradeTransactionRequest("USDPLN",
-					OperationCodeSell,
-					OperationTypeOpen,
+					common.OperationCodeSell,
+					common.OperationTypeOpen,
 					4.01,
 					0.1,
 					TradeTransactionRequestWithCustomComment("comment"),
@@ -377,9 +378,9 @@ func TestConstructor(t *testing.T) {
 				PrettyPrint: true,
 				Arguments: TradeTransactionArgs{
 					TradeTransInfo{
-						Cmd:           OperationCodeSell,
+						Cmd:           common.OperationCodeSell,
 						CustomComment: "comment",
-						Type:          OperationTypeOpen,
+						Type:          common.OperationTypeOpen,
 						Price:         4.01,
 						Volume:        0.1,
 						TakeProfit:    3.98,
@@ -900,7 +901,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 								Percentage:         100,
 								Precision:          2,
 								ProfitMode:         ProfitModeForex,
-								QuoteId:            QuoteIdFixed,
+								QuoteId:            common.QuoteIdFixed,
 								ShortSelling:       true,
 								SpreadRaw:          0.000003,
 								SpreadTable:        0.00042,
@@ -983,7 +984,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 									CloseTime:        nil,
 									CloseTimeString:  nil,
 									Closed:           false,
-									Cmd:              OperationCodeBuy,
+									Cmd:              common.OperationCodeBuy,
 									Comment:          "Web Trader",
 									Commission:       0.0,
 									CustomComment:    "Some text",
@@ -1028,7 +1029,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 									CloseTime:        nil,
 									CloseTimeString:  nil,
 									Closed:           false,
-									Cmd:              OperationCodeBuy,
+									Cmd:              common.OperationCodeBuy,
 									Comment:          "Web Trader",
 									Commission:       0,
 									CustomComment:    "Some text",
@@ -1073,7 +1074,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 									CloseTime:        nil,
 									CloseTimeString:  nil,
 									Closed:           false,
-									Cmd:              OperationCodeBuy,
+									Cmd:              common.OperationCodeBuy,
 									Comment:          "Web Trader",
 									Commission:       0,
 									CustomComment:    "Some text",
@@ -1167,7 +1168,7 @@ func TestRequestResponseJsonCoding(t *testing.T) {
 							Command: "tradeTransaction",
 							Arguments: TradeTransactionArgs{
 								TradeTransInfo{
-									Cmd:           OperationCodeBuyLimit,
+									Cmd:           common.OperationCodeBuyLimit,
 									CustomComment: "Some text",
 									Expiration:    1462006335000,
 									Offset:        0,

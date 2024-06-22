@@ -256,7 +256,7 @@ type StreamingTradeRecord struct {
 
 type StreamingTradeStatusRecord struct {
 	CustomComment string  `json:"customComment,omitempty"`
-	Message       *string `json:"message,omitempty"`
+	Message       *string `json:"message"`
 	Order         int     `json:"order"`
 	Price         float64 `json:"price"`
 	RequestStatus int     `json:"requestStatus"`
@@ -324,5 +324,22 @@ type StopTradesRequest Request
 func NewStopTradesRequest() *StopTradesRequest {
 	return &StopTradesRequest{
 		Command: CmdStopTrades,
+	}
+}
+
+type GetTradeStatusRequest Request
+
+func NewGetTradeStatusRequest(streamSessionId string) *GetTradeStatusRequest {
+	return &GetTradeStatusRequest{
+		Command:         CmdGetTradeStatus,
+		StreamSessionId: streamSessionId,
+	}
+}
+
+type StopTradeStatusRequest Request
+
+func NewStopTradeStatusRequest() *StopTradeStatusRequest {
+	return &StopTradeStatusRequest{
+		Command: CmdStopTradeStatus,
 	}
 }
