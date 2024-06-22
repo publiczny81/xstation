@@ -372,6 +372,32 @@ func TestRequestJsonCoding(t *testing.T) {
 					},
 				},
 			},
+			{
+				Name: CmdGetTradeStatus,
+				Data: []testData{
+					{
+						Want:   "testdata/getTradeStatus.request.json",
+						Actual: NewGetTradeStatusRequest("8469308861804289383"),
+					},
+					{
+						Want:   "testdata/stopTradeStatus.request.json",
+						Actual: NewStopTradeStatusRequest(),
+					},
+					{
+						Want: "testdata/tradeStatus.stream.json",
+						Actual: &DataStream{
+							Command: DataStreamTradeStatus,
+							Data: &StreamingTradeStatusRecord{
+								CustomComment: "Some text",
+								Message:       nil,
+								Order:         43,
+								Price:         1.392,
+								RequestStatus: 3,
+							},
+						},
+					},
+				},
+			},
 		}
 	)
 

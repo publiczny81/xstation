@@ -93,5 +93,15 @@
       "type": 0,
       "volume": 0.10
     }
+  },
+  {
+    "command": "tradeStatus",
+    "data": {
+      "customComment": "Some text",
+      "message": null,
+      "order": 43,
+      "price": 1.392,
+      "requestStatus": 3
+    }
   }
 ]
