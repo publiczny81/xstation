@@ -104,6 +104,33 @@ func TestConstructor(t *testing.T) {
 				StreamSessionId: "8469308861804289383",
 			},
 		},
+		{
+			Name: CmdGetTickPrices,
+			RequestFactory: func() any {
+				return NewGetTickPricesRequest("8469308861804289383", "EURUSD", 5000, 3)
+			},
+			Want: &GetTickPricesRequest{
+				Request: Request{
+					Command:         CmdGetTickPrices,
+					StreamSessionId: "8469308861804289383",
+				},
+				Symbol:         "EURUSD",
+				MaxLevel:       3,
+				MinArrivalTime: 5000,
+			},
+		},
+		{
+			Name: CmdStopTickPrices,
+			RequestFactory: func() any {
+				return NewStopTickPricesRequest("EURUSD")
+			},
+			Want: &StopTickPricesRequest{
+				Request: Request{
+					Command: CmdStopTickPrices,
+				},
+				Symbol: "EURUSD",
+			},
+		},
 	}
 
 	for _, test := range tests {
@@ -259,6 +286,39 @@ func TestRequestJsonCoding(t *testing.T) {
 				},
 			},
 			{
+				Name: CmdGetTickPrices,
+				Data: []testData{
+					{
+						Want:   "testdata/getTickPrices.request.json",
+						Actual: NewGetTickPricesRequest("8469308861804289383", "EURUSD", 5000, 2),
+					},
+					{
+						Want:   "testdata/stopTickPrices.request.json",
+						Actual: NewStopTickPricesRequest("EURUSD"),
+					},
+					{
+						Want: "testdata/tickPrices.stream.json",
+						Actual: &DataStream{
+							Command: DataStreamTickPrices,
+							Data: &StreamingTickRecord{
+								Ask:         4000,
+								AskVolume:   15000,
+								Bid:         4000,
+								BidVolume:   16000,
+								High:        4000,
+								Level:       0,
+								Low:         3500,
+								QuoteId:     0,
+								SpreadRaw:   0.000003,
+								SpreadTable: 0.00042,
+								Symbol:      "KOMB.CZ",
+								Timestamp:   1272529161605,
+							},
+						},
+					},
+				},
+			},
+			{
 				Name: CmdPing,
 				Data: []testData{
 					{
@@ -341,6 +401,23 @@ func TestDataStreamUnmarshalJSON(t *testing.T) {
 					Order2:   7497777,
 					Position: 7497776,
 					Profit:   7076.52,
+				},
+			},
+			{
+				Command: DataStreamTickPrices,
+				Data: &StreamingTickRecord{
+					Ask:         4000,
+					AskVolume:   15000,
+					Bid:         4000,
+					BidVolume:   16000,
+					High:        4000,
+					Level:       0,
+					Low:         3500,
+					QuoteId:     0,
+					SpreadRaw:   0.000003,
+					SpreadTable: 0.00042,
+					Symbol:      "KOMB.CZ",
+					Timestamp:   1272529161605,
 				},
 			},
 		}

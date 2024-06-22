@@ -93,6 +93,7 @@ type GetCandlesRequest struct {
 	Request
 	Symbol string `json:"symbol"`
 }
+
 type StopCandlesRequest struct {
 	Request
 	Symbol string `json:"symbol"`
@@ -217,6 +218,7 @@ type StreamingTickRecord struct {
 	Bid         float64 `json:"bid"`
 	BidVolume   int     `json:"bidVolume"`
 	High        float64 `json:"high"`
+	Level       int     `json:"level"`
 	Low         float64 `json:"low"`
 	QuoteId     int     `json:"quoteId"`
 	SpreadRaw   float64 `json:"spreadRaw"`
@@ -275,4 +277,35 @@ type StreamingCandleRecord struct {
 func (r *StreamingCandleRecord) String() string {
 	var data, _ = json.Marshal(r)
 	return string(data)
+}
+
+type GetTickPricesRequest struct {
+	Request
+	Symbol         string `json:"symbol"`
+	MinArrivalTime int    `json:"minArrivalTime"`
+	MaxLevel       int    `json:"maxLevel"`
+}
+
+func NewGetTickPricesRequest(streamSessionId, symbol string, minArrivalTime, maxLevel int) *GetTickPricesRequest {
+	return &GetTickPricesRequest{
+		Request: Request{
+			Command:         CmdGetTickPrices,
+			StreamSessionId: streamSessionId,
+		},
+		Symbol:         symbol,
+		MinArrivalTime: minArrivalTime,
+		MaxLevel:       maxLevel,
+	}
+}
+
+type StopTickPricesRequest struct {
+	Request
+	Symbol string `json:"symbol"`
+}
+
+func NewStopTickPricesRequest(symbol string) *StopTickPricesRequest {
+	return &StopTickPricesRequest{
+		Request: Request{Command: CmdStopTickPrices},
+		Symbol:  symbol,
+	}
 }

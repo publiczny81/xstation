@@ -1,0 +1,7 @@
+{
+  "command": "getTickPrices",
+  "streamSessionId": "8469308861804289383",
+  "symbol": "EURUSD",
+  "minArrivalTime": 5000,
+  "maxLevel": 2
+}
